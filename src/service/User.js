@@ -1,10 +1,10 @@
 import getToken from "../helpers/getToken";
 import serialize from "../helpers/serialize";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8888";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8888/";
 class User {
     fetchInfor(token) {
-        return fetch(API_URL + "/user/fetchInfor", {
+        return fetch(API_URL + "user/fetchInfor", {
                 method: "post",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -15,7 +15,7 @@ class User {
             .catch(err => err)
     }
     login(email, password) {
-        return fetch(API_URL + "/user/login", {
+        return fetch(API_URL + "user/login", {
                 method: "post",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -28,7 +28,7 @@ class User {
         if (password !== repass) {
             throw new Error('Re-Password not same password');
         }
-        return fetch(API_URL + "/user/signup", {
+        return fetch(API_URL + "user/signup", {
             method: "post",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -37,7 +37,7 @@ class User {
         }).then(res => res.json());
     }
     updateProfile(formData) {
-        return fetch(API_URL + "/user/profile/update", {
+        return fetch(API_URL + "user/profile/update", {
                 method: "post",
                 headers: {
                     'x-access-token': getToken()
@@ -47,7 +47,7 @@ class User {
             .then(res => res.json())
     }
     searchFriends(keyword) {
-        return fetch(API_URL + "/user/searchFriends?" + serialize({ keyword }), {
+        return fetch(API_URL + "user/searchFriends?" + serialize({ keyword }), {
                 method: "get",
                 headers: {
                     'x-access-token': getToken()
@@ -56,7 +56,7 @@ class User {
             .then(res => res.json())
     }
     getConversation(userID, friendID) {
-        return fetch(API_URL + "/conversation?" + serialize({ userID, friendID }), {
+        return fetch(API_URL + "conversation?" + serialize({ userID, friendID }), {
                 method: 'get',
                 headers: {
                     'x-access-token': getToken()
