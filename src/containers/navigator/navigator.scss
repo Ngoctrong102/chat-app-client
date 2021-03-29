@@ -1,0 +1,15 @@
+.navConversation {
+    flex: 0 1;
+    // width: 350px;
+    flex-basis: 450px;
+    min-width: fit-content;
+    height: 100%;
+    display: flex;
+}
+
+@media only screen and (max-width: 824px) {
+    .navConversation {
+        flex: 1 1;
+        flex-direction: column-reverse;
+    }
+}

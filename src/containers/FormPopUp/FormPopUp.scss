@@ -1,0 +1,15 @@
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    z-index: 1000;
+    position: absolute;
+    // glass
+    background: rgba(139, 174, 191, 0.2);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37);
+    backdrop-filter: blur( 3.0px);
+    -webkit-backdrop-filter: blur( 3.0px);
+    //glass
+}

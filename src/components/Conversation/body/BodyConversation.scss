@@ -1,0 +1,14 @@
+.body-conversation {
+    flex: 1 1;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(136, 136, 136, 0.377);
+    }
+}

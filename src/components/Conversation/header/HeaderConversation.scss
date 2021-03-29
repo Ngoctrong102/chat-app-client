@@ -1,0 +1,97 @@
+header.header-conversation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px #b3b0b08e solid;
+    .header-user {
+        display: flex;
+        align-items: center;
+        flex: 1 1;
+        flex-basis: 50px;
+        width: 50px;
+        .avt {
+            position: relative;
+            img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+        }
+        .avt.active::after {
+            content: '';
+            height: 7px;
+            width: 7px;
+            background-color: #0abb87;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+            top: 0px;
+            right: 0px;
+            border: 3px solid white;
+        }
+        div:last-child {
+            width: 100px;
+            flex: 1 1;
+            flex-basis: 100px;
+            h4 {
+                margin: 2px 15px;
+                font-size: 17px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                // width: 100%;
+            }
+            small {
+                margin: 15px;
+                font-size: 13px;
+                font-style: italic;
+                color: #3f3f3fc9;
+                white-space: nowrap;
+            }
+        }
+    }
+    .header-chat-action {
+        flex: 0 0;
+        width: max-content;
+        flex-basis: 100px;
+        ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            display: flex;
+            li {
+                margin-left: 10px;
+                button {
+                    border: 1px solid #e6e6e6;
+                    background-color: white;
+                    border-radius: 4px;
+                    padding: 10px 15px 7px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 824px) {
+    header.header-conversation {
+        padding: 10px;
+        .header-user {
+            .icon.back {
+                border-radius: 50%;
+                background-color: white;
+                border: 2px solid #e6e6e6;
+                color: #0062e1;
+                height: 35px;
+                width: 35px;
+                margin-right: 5px;
+            }
+        }
+        .header-chat-action {
+            ul li button {
+                padding: 10px 10px 7px;
+                ;
+            }
+        }
+    }
+}
