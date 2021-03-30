@@ -8,7 +8,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { SocketContext } from '../chatApp/ChatApp';
 import { pushReqFriends } from '../../store/actions/user';
 
-const Navigator = ({ pushReqFriends }) => {
+const Navigator = ({ pushReqFriends, isMobile }) => {
     const socket = useContext(SocketContext);
     useEffect(() => {
         socket.on('REQ_ADD_FRIEND', (data) => {
@@ -18,7 +18,7 @@ const Navigator = ({ pushReqFriends }) => {
     }, [])
     return (
         <div className="navConversation">
-            <NavFeature />
+            <NavFeature isMobile={isMobile} />
             <Sidebar />
         </div>
     )

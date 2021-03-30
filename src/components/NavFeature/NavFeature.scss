@@ -4,6 +4,9 @@
     border: 1px solid #e6e6e6;
     display: flex;
     flex-direction: column;
+    position: relative;
+    // perspective: 100px;
+    z-index: 100;
     .logo {
         height: 86px;
         display: flex;
@@ -18,6 +21,7 @@
     ul,
     .list-feature {
         list-style: none;
+        transition: all 200ms ease-in-out;
         flex-grow: 1;
         padding: 0px;
         li {
@@ -56,6 +60,7 @@
         }
     }
     .user-menu {
+        transition: all 200ms ease-in-out;
         margin-top: auto;
         ul {
             margin: 0px;
@@ -113,18 +118,63 @@
     }
 }
 
+#change-nav {
+    position: absolute;
+    top: -85px;
+    outline: none;
+    background-color: #0000;
+    // border: none;
+    color: #0a80ff;
+    font-size: 17px;
+    text-shadow: 0px 5px 10px #0a80ff;
+    transition: all 200ms ease-in-out;
+    z-index: 10000;
+}
+
 @media only screen and (max-width: 824px) {
     .navFeature {
-        flex-direction: row;
+        flex-direction: column-reverse;
         align-items: center;
+        height: max-content;
+        border: none;
         .list-feature {
-            margin: 8px;
+            padding: 8px 0px;
+            margin: 0px;
             display: flex;
+            width: 100%;
             justify-content: space-around;
+            border-top: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+            position: absolute;
+            background-color: white;
+            // z-index: 1;
         }
-        .logo,
-        .user-menu {
+        .logo {
             display: none;
+        }
+        .user-menu {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #e6e6e6;
+            border-top: 1px solid #e6e6e6;
+            position: absolute;
+            background-color: white;
+            z-index: -1;
+            ul {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                margin: 0px auto;
+                li {
+                    margin: 0px;
+                }
+                .dropdown {
+                    margin: 5px;
+                    .dropmenu {
+                        right: 0px;
+                    }
+                }
+            }
         }
     }
 }
