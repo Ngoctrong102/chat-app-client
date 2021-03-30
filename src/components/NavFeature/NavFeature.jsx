@@ -16,13 +16,13 @@ const NavFeature = ({ feature, changeFeature, logout, togglePopUp, user, reqFrie
 
     var [showFeature, setShowFeature] = useState(true);
     const changeNav = (e) => {
+        var time = 560;
         btnToggle.current.animate([
             { transform: "rotateX(0deg)" },
             { transform: "rotateX(0deg)", top: '-150px' },
             { transform: "rotateX(180deg)", top: '-85px' }
         ], {
-            duration: 700
-            // fill: 'forwards'
+            duration: time
 
         })
         if (showFeature) {
@@ -30,7 +30,7 @@ const NavFeature = ({ feature, changeFeature, logout, togglePopUp, user, reqFrie
                 { zIndex: 0 },
                 { zIndex: -1 }
             ], {
-                duration: 700,
+                duration: time,
                 fill: 'forwards'
             })
             userMenu.current.animate([
@@ -38,7 +38,7 @@ const NavFeature = ({ feature, changeFeature, logout, togglePopUp, user, reqFrie
                 { bottom: '64px', zIndex: -1 },
                 { bottom: '0px', zIndex: 0 }
             ], {
-                duration: 700,
+                duration: time,
                 fill: 'forwards'
             })
 
@@ -50,14 +50,14 @@ const NavFeature = ({ feature, changeFeature, logout, togglePopUp, user, reqFrie
                 { bottom: '64px', zIndex: 0 },
                 { bottom: '0px', zIndex: 0 }
             ], {
-                duration: 700,
+                duration: time,
                 fill: 'forwards'
             })
             userMenu.current.animate([
                 { zIndex: 0 },
                 { zIndex: -1 }
             ], {
-                duration: 700,
+                duration: time,
                 fill: 'forwards'
             })
             setShowFeature(!showFeature);
