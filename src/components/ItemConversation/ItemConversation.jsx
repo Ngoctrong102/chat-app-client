@@ -26,7 +26,7 @@ const ItemConversation = ({ conversation, user, changeConversation, index }) => 
             }}>
             <div className="avt active">
                 <div className="avt-wrapper">
-                    {users.map((u, i) => <img src={"http://localhost:8888/uploads/" + u.avatar} key={i} />)}
+                    {users.map((u, i) => <img src={process.env.REACT_APP_API_URL + "uploads/" + u.avatar} key={i} />)}
                 </div>
             </div>
             <div className="body-item-conversation new-mess ">
