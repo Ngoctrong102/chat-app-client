@@ -14,6 +14,7 @@ export const handleLogin = (email, password, rememberMe) => async dispatch => {
                 }
             })
         }
+        console.log(respone)
         dispatch({
             type: "LOGIN",
             payload: respone

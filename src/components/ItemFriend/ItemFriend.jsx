@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import { openCoversation } from '../../store/actions/conversations';
+import { openConversation } from '../../store/actions/conversations';
 
 import './ItemFriend.scss';
 
@@ -19,7 +19,7 @@ const ItemReqFriend = ({ friend, user, openConversation }) => {
   }
 
   const handleChat = async (e) => {
-    openConversation(user._id, friend._id);
+    openConversation([user._id, friend._id]);
   }
   return (
     <li className="item-friend">
@@ -40,7 +40,9 @@ const ItemReqFriend = ({ friend, user, openConversation }) => {
                 borderBottom: "1px solid #d2d2d2ad"
               }}
               onClick={handleChat}
-            >Chat</button>
+            >
+              Chat
+            </button>
             <button>Profile</button>
             <button>Delete</button>
           </div>
@@ -58,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConversation: (userID, friendID) => dispatch(openCoversation(userID, friendID))
+    openConversation: (users) => dispatch(openConversation(users))
   };
 }
 
