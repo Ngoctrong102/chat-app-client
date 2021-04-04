@@ -10,7 +10,9 @@ const HeaderConversation = ({ conversation, user, isMobile, changeConversation }
             <div className="header-user">
                 {isMobile && <button className="icon back" onClick={() => changeConversation(null)}><i class="fas fa-chevron-left"></i></button>}
                 <div className="avt active">
-                    {users.map((u, i) => <img src={"http://localhost:8888/uploads/" + u.avatar} alt="" key={i} />)}
+                    <div className="avt-wrapper">
+                        {users.map((u, i) => <img src={"http://localhost:8888/uploads/" + u.avatar} alt="" key={i} />)}
+                    </div>
                 </div>
                 <div>
                     <h4>{users.map(u => u.username).join(', ')}</h4>

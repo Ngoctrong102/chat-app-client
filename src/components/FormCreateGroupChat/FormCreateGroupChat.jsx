@@ -4,19 +4,22 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 
+import { openConversation } from '../../store/actions/conversations';
 import { togglePopUp } from '../../store/actions/nav';
 
 import User from '../../service/User';
 
 import './FormCreateGroupChat.scss';
-import AddFriendItem from '../AddFriendItem/AddFriendItem';
+import UserItem from './UserItem/UserItem';
+import MemberItem from './MemberItem/MemberItem';
 
-const FormCreateGroupChat = ({ togglePopUp }) => {
+const FormCreateGroupChat = ({ user, togglePopUp, openConversation }) => {
   var formRef = useRef();
   var checkBtnRef = useRef();
 
   var [users, setUsers] = useState([]);
   var [groupName, setGroupName] = useState('');
+  var [members, setMembers] = useState([]);
 
   let timeout = null;
   const handleSearch = (e) => {
@@ -38,13 +41,21 @@ const FormCreateGroupChat = ({ togglePopUp }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formRef.current.validateAll();
-    if (checkBtnRef.current.context._errors.length == 0) {
-      console.log('submit add friends')
+    if (checkBtnRef.current.context._errors.length === 0) {
+      var memberIDs = members.map(member => member._id);
+      memberIDs.push(user._id);
+      openConversation(memberIDs)
     }
   }
-
+  const toggleMember = (member, isChecked) => {
+    if (isChecked) {
+      setMembers([...members, member])
+    } else {
+      setMembers(prev => prev.filter(m => m._id != member._id))
+    }
+  }
   var listUsers = users.length ? (
-    users.map((u, i) => <AddFriendItem friend={u} key={i} />)
+    users.map((u, i) => <UserItem user={u} checked={members.map(m => m._id).includes(u._id)} onChange={toggleMember} key={i} />)
   ) : (
     <div style={{
       textAlign: "center",
@@ -53,6 +64,11 @@ const FormCreateGroupChat = ({ togglePopUp }) => {
       Tìm bạn bè
     </div>
   );
+
+  const removeMembers = (memId) => {
+    setMembers(prev => prev.filter((mem => mem._id !== memId)))
+  }
+  var listMembers = members.map((mem, i) => <MemberItem removeMembers={removeMembers} key={i} member={mem} />)
 
   return (
     <div className="form-popup">
@@ -66,14 +82,23 @@ const FormCreateGroupChat = ({ togglePopUp }) => {
       <div className="form-body">
         <Form ref={formRef} onSubmit={handleSubmit} >
           <div className="form-group">
-            Group name
+            <label htmlFor="group-name">Group name</label>
             <Input
+              id="group-name"
               type="text"
               placeholder="Enter group name"
               value={groupName}
               onChange={(e) => { setGroupName(e.target.value) }}
             />
           </div>
+          {/* {members.length !== 0 && */}
+          <div className="form-group">
+            <label>Members</label>
+            <ul className="member-list">
+              {listMembers}
+            </ul>
+          </div>
+          {/* } */}
           <div className="form-group">
             <Input
               type="text"
@@ -81,23 +106,30 @@ const FormCreateGroupChat = ({ togglePopUp }) => {
               onChange={handleSearch}
             />
           </div>
+          <ul className="list-user">
+            {listUsers}
+          </ul>
+          <div className="form-group">
+            <input type="submit" value="Create" />
+          </div>
           <CheckButton style={{ display: "none" }} ref={checkBtnRef} />
         </Form>
-        <ul className="list-user">
-          {listUsers}
-        </ul>
+
       </div>
     </div >
   )
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    user: state.userState.user
+  }
 }
 
 function mapActionToProps(dispatch) {
   return {
-    togglePopUp: (formName = '') => dispatch(togglePopUp(formName))
+    togglePopUp: (formName = '') => dispatch(togglePopUp(formName)),
+    openConversation: (users) => dispatch(openConversation(users))
   }
 }
 

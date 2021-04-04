@@ -1,0 +1,21 @@
+.member-item {
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
+    position: relative;
+    .avt {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: rgba(108, 197, 248, 0.733);
+        border: 1px solid rgba(76, 189, 255, 0.856);
+        color: #fff;
+        border-radius: 50%;
+    }
+}

@@ -55,12 +55,14 @@ class User {
             })
             .then(res => res.json())
     }
-    getConversation(userID, friendID) {
-        return fetch(API_URL + "/conversation?" + serialize({ userID, friendID }), {
-                method: 'get',
+    getConversation(users) {
+        return fetch(API_URL + "/conversation", {
+                method: 'post',
                 headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
                     'x-access-token': getToken()
-                }
+                },
+                body: JSON.stringify({ users })
             })
             .then(res => res.json())
     }

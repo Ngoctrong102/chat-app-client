@@ -1,6 +1,6 @@
 import User from '../../service/User';
-export const openCoversation = (userID, friendID) => async dispatch => {
-    var conversation = await User.getConversation(userID, friendID);
+export const openConversation = (users) => async dispatch => {
+    var conversation = await User.getConversation(users);
     dispatch({
         type: 'OPEN_CONVERSATION',
         payload: {

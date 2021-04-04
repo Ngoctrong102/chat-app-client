@@ -17,10 +17,7 @@ const userReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    user: action.payload.user,
-                    token: action.payload.token,
-                    friends: action.payload.friends,
-                    reqFriends: action.payload.reqFriends
+                    ...action.payload
                 };
 
             }

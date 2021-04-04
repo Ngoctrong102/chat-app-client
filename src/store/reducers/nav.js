@@ -23,7 +23,8 @@ const navigatorReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    feature: "Chat"
+                    feature: "Chat",
+                    popUp: ''
                 }
             }
         default:
