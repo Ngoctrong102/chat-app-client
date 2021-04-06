@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import { changeConversation } from '../../../store/actions/conversations';
-
+import { PeerContext } from '../../../containers/chatApp/ChatApp';
 import './HeaderConversation.scss'
 const HeaderConversation = ({ conversation, user, isMobile, changeConversation }) => {
     var users = conversation.users.filter(u => u._id !== user._id);
+    var peer = useContext(PeerContext);
+    const makeCall = async (e) => {
+        try {
+            var stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            console.log('có được video stream', stream)
+            conversation.users.forEach(u => {
+                if (user._id != u._id) {
+                    console.log('gọi cho ' + u.username)
+                    // peer.connect(user._id, stream);
+                    var call = peer.call(u._id, stream);
+                    call.on('stream', (remoteStream) => {
+                        console.log("nghe máy")
+                    });
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
+        // navigator.mediaDevices.getUserMedia({ video: true, audio: true }, (stream) => {
+
+        // }, (err) => {
+        //     console.error('Failed to get local stream', err);
+        // });
+
+    }
     return (
         <header className="header-conversation">
             <div className="header-user">
-                {isMobile && <button className="icon back" onClick={() => changeConversation(null)}><i class="fas fa-chevron-left"></i></button>}
+                {isMobile && <button className="icon back" onClick={() => changeConversation(null)}><i className="fas fa-chevron-left"></i></button>}
                 <div className="avt active">
                     <div className="avt-wrapper">
                         {users.map((u, i) => <img src={process.env.REACT_APP_API_URL + "uploads/" + u.avatar} alt="" key={i} />)}
@@ -22,7 +48,7 @@ const HeaderConversation = ({ conversation, user, isMobile, changeConversation }
             <div className="header-chat-action">
                 <ul>
                     <li>
-                        <button>
+                        <button onClick={makeCall}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0abb87" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                         </button>
                     </li>
