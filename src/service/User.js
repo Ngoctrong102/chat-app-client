@@ -1,7 +1,7 @@
 import getToken from "../helpers/getToken";
 import serialize from "../helpers/serialize";
 
-const API_URL = "http://localhost:8888";
+const API_URL = process.env.REACT_APP_API_URL;
 class User {
     fetchInfor(token) {
         return fetch(API_URL + "/user/fetchInfor", {

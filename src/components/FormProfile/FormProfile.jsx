@@ -57,7 +57,7 @@ const FormProfile = ({ submitProfile, togglePopUp, user }) => {
               onChange={e => setAvatar(e.target.files[0])}
             />
             <div className="avatar">
-              <img src={'http://localhost:8888/uploads/' + user.avatar} alt="avatar" />
+              <img src={process.env.REACT_APP_API_URL + "/uploads/" + user.avatar} alt="avatar" />
             </div>
             <label htmlFor="avatar">
               <span>

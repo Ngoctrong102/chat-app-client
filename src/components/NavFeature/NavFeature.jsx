@@ -129,7 +129,7 @@ const NavFeature = ({ feature, changeFeature, logout, togglePopUp, user, reqFrie
                     <li>
                         <div className="dropdown" ref={menuUser}>
                             <div className="avt" onClick={toggleMenuUser}>
-                                <img src={"http://localhost:8888/uploads/" + user.avatar} alt="" />
+                                <img src={process.env.REACT_APP_API_URL + "/uploads/" + user.avatar} alt="" />
                             </div>
                             <div className="dropmenu">
                                 <button onClick={(e) => {

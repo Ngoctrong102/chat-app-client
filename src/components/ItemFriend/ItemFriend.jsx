@@ -24,7 +24,7 @@ const ItemReqFriend = ({ friend, user, openConversation }) => {
   return (
     <li className="item-friend">
       <div className="avt">
-        <img src={"http://localhost:8888/uploads/" + friend.avatar} alt="" />
+        <img src={process.env.REACT_APP_API_URL + "/uploads/" + friend.avatar} alt="" />
       </div>
       <div className="body">
         <div>
