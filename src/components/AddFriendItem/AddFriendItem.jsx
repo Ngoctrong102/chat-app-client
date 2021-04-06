@@ -11,7 +11,7 @@ const AddFriendItem = ({ user, friend }) => {
   return (
     <li className="item-req-friend">
       <div className="avt">
-        <img src={process.env.REACT_APP_API_URL + "/uploads/" + friend.avatar} alt="" />
+        <img src={process.env.REACT_APP_API_URL + "uploads/" + friend.avatar} alt="" />
       </div>
       <div className="body">
         <div>

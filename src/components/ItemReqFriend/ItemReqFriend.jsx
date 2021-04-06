@@ -12,7 +12,7 @@ const ItemReqFriend = ({ reqFriend, user }) => {
   return (
     <li className="item-add-friend">
       <div className="avt">
-        <img src={process.env.REACT_APP_API_URL + "/uploads/" + reqFriend.avatar} alt="" />
+        <img src={process.env.REACT_APP_API_URL + "uploads/" + reqFriend.avatar} alt="" />
       </div>
       <div className="body">
         <div>

@@ -4,7 +4,7 @@ const UserItem = ({ user, onChange, checked }) => {
   return (
     <li className="user-item">
       <div className="avt">
-        <img src={process.env.REACT_APP_API_URL + "/uploads/" + user.avatar} alt="" />
+        <img src={process.env.REACT_APP_API_URL + "uploads/" + user.avatar} alt="" />
       </div>
       <div className="body">
         <div>

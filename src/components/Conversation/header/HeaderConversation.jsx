@@ -11,7 +11,7 @@ const HeaderConversation = ({ conversation, user, isMobile, changeConversation }
                 {isMobile && <button className="icon back" onClick={() => changeConversation(null)}><i class="fas fa-chevron-left"></i></button>}
                 <div className="avt active">
                     <div className="avt-wrapper">
-                        {users.map((u, i) => <img src={process.env.REACT_APP_API_URL + "/uploads/" + u.avatar} alt="" key={i} />)}
+                        {users.map((u, i) => <img src={process.env.REACT_APP_API_URL + "uploads/" + u.avatar} alt="" key={i} />)}
                     </div>
                 </div>
                 <div>
