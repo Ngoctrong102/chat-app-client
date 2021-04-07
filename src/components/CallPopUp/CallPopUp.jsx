@@ -14,18 +14,18 @@ const CallPopUp = () => {
   var videoTag = useRef();
   var videoTagRemote = useRef();
   useEffect(async () => {
-    // peer = new Peer({
-    //   host: process.env.REACT_APP_PEER_SERVER_HOST,
-    //   debug: 1,
-    //   path: '/peerServer',
-    //   port: process.env.REACT_APP_PEER_SERVER_PORT
-    // });
     peer = new Peer({
-      host: "peer-server-ngoctrong102.herokuapp.com",
+      host: process.env.REACT_APP_PEER_SERVER_HOST,
       debug: 1,
-      path: '/',
+      path: '/peerServer',
       port: process.env.REACT_APP_PEER_SERVER_PORT
     });
+    // peer = new Peer({
+    //   host: "peer-server-ngoctrong102.herokuapp.com",
+    //   debug: 1,
+    //   path: '/',
+    //   port: process.env.REACT_APP_PEER_SERVER_PORT
+    // });
     peer.on('open', async (id) => {
       console.log('peerID: ', id);
       peer.on('call', function (call) {
