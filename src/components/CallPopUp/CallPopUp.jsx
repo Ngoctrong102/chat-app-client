@@ -26,6 +26,7 @@ const CallPopUp = () => {
       peer.on('call', function (call) {
         call.answer(localStream);
         call.on('stream', (remoteStream) => {
+          console.log('remote:', remoteStream)
           videoTagRemote.current.srcObject = remoteStream;
           remoteStreams.push(remoteStream);
         })
@@ -39,6 +40,7 @@ const CallPopUp = () => {
       var call = peer.call(peerID, localStream)
       call.on('stream', (remoteStream) => {
         videoTagRemote.current.srcObject = remoteStream;
+        console.log('remote:', remoteStream)
         remoteStreams.push(remoteStream);
       })
     })
@@ -54,6 +56,7 @@ const CallPopUp = () => {
     window.answerCall = async (conversationID, isVideoCall) => {
       localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: false });
       videoTag.current.srcObject = localStream;
+      console.log("abc", peer.id)
       socket.emit("JOIN_CALL", { conversationID, peerID: peer.id });
     }
 
