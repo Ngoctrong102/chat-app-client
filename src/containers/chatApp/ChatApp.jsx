@@ -1,29 +1,23 @@
 
 
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Navigator from '../navigator/navigator'
 import Conversation from '../conversation/conversation';
 import FormPopUp from '../FormPopUp/FormPopUp';
 import { addNewMessage, changeConversation, firstMessage } from '../../store/actions/conversations'
-import Peer from 'peerjs';
+
+import popupWindow from '../../helpers/popupWindow';
 
 let SocketContext = createContext();
-let PeerContext = createContext();
 
-const ChatApp = ({ user, popUp, socket, addNewMessage, firstMessage, currentConversation, changeConversation }) => {
+const ChatApp = ({ popUp, socket, addNewMessage, firstMessage, currentConversation, changeConversation }) => {
   let [isMobile, setIsMobile] = useState(document.body.offsetWidth < 824);
   const changeIsMobile = e => {
     setIsMobile(document.body.offsetWidth < 824);
   }
-
-  let peer = new Peer(user._id);
-
   useEffect(() => {
-    peer.on('call', (call) => {
-      console.log(call);
-    })
     socket.on('NEW_MESSAGE', ({ conversationID, message }) => {
       // console.log(data)
       addNewMessage(conversationID, message);
@@ -32,7 +26,53 @@ const ChatApp = ({ user, popUp, socket, addNewMessage, firstMessage, currentConv
       // console.log(data)
       firstMessage(oldID, conversation);
     })
+    socket.on('HAVE_CALL', async ({ conversationID, peerID, isVideoCall }) => {
+      // var a = window.confirm("có cuộc gọi nè");
+      // if (a) {
+      //   var stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      //   vL.current.srcObject = stream;
+      //   var peer = new Peer({
+      //     host: process.env.REACT_APP_PEER_SERVER_HOST,
+      //     debug: 1,
+      //     path: '/',
+      //     port: 9000
+      //   });
+      //   peer.on('open', (id) => {
+      //     var call = peer.call(peerID, stream);
 
+      //     call.on('stream', (streamRemote) => {
+      //       console.log("streamRemote");
+      //       v.current.srcObject = streamRemote;
+      //       // v.current.play();
+      //       console.log(streamRemote);
+      //       var playPromise = v.current.play();
+
+      //       // if (playPromise !== undefined) {
+      //       //   playPromise
+      //       //     .then(_ => {
+      //       //       // Automatic playback started!
+      //       //       // Show playing UI.
+      //       //       console.log("audio played auto");
+      //       //     })
+      //       //     .catch(error => {
+      //       //       // Auto-play was prevented
+      //       //       // Show paused UI.
+      //       //       console.log("playback prevented");
+      //       //     });
+      //       // }
+      //     })
+      //   })
+      // }
+      var a = window.confirm("có cuộc gọi nè");
+      if (a) {
+        var newWindow = popupWindow('/call', "Video call", 600, 800);
+        if (newWindow) {
+          newWindow.addEventListener('load', () => {
+            newWindow.answerCall(conversationID, isVideoCall)
+          })
+        }
+      }
+    })
     window.addEventListener('resize', changeIsMobile)
 
     return () => {
@@ -64,13 +104,11 @@ const ChatApp = ({ user, popUp, socket, addNewMessage, firstMessage, currentConv
 
   return (
     <SocketContext.Provider value={socket}>
-      <PeerContext.Provider value={peer}>
-        <div className="app">
-          {popUp && <FormPopUp />}
-          {renderBodyApp()}
-        </div>
-      </PeerContext.Provider>
-    </SocketContext.Provider>
+      <div className="app">
+        {popUp && <FormPopUp />}
+        {renderBodyApp()}
+      </div>
+    </SocketContext.Provider >
   )
 }
 
@@ -90,4 +128,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatApp);
-export { SocketContext, PeerContext };
+export { SocketContext };

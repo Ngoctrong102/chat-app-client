@@ -12,6 +12,7 @@ import { fetchUserInfor } from './store/actions/auth';
 import getToken from './helpers/getToken';
 import getSocket from './configs/socket';
 import ChatApp from './containers/chatApp/ChatApp';
+import CallPopUp from './components/CallPopUp/CallPopUp';
 
 
 function App({ user, fetchUserInfor }) {
@@ -46,6 +47,9 @@ function App({ user, fetchUserInfor }) {
             :
             <SignUpPage />
           }
+        </Route>
+        <Route path="/call">
+          <CallPopUp />
         </Route>
       </Switch>
     </Router >

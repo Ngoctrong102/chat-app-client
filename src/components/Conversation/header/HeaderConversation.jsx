@@ -1,35 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import popupWindow from '../../../helpers/popupWindow';
 import { changeConversation } from '../../../store/actions/conversations';
-import { PeerContext } from '../../../containers/chatApp/ChatApp';
 import './HeaderConversation.scss'
 const HeaderConversation = ({ conversation, user, isMobile, changeConversation }) => {
     var users = conversation.users.filter(u => u._id !== user._id);
-    var peer = useContext(PeerContext);
-    const makeCall = async (e) => {
-        try {
-            var stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            console.log('có được video stream', stream)
-            conversation.users.forEach(u => {
-                if (user._id != u._id) {
-                    console.log('gọi cho ' + u.username)
-                    // peer.connect(user._id, stream);
-                    var call = peer.call(u._id, stream);
-                    call.on('stream', (remoteStream) => {
-                        console.log("nghe máy")
-                    });
-                }
-            });
-        } catch (error) {
-            console.error(error);
+    const makeAudioCall = () => {
+        console.log('gọi k video')
+
+    }
+    const makeVideoCall = () => {
+        // window.hadCall = true;
+        var newWindow = popupWindow(`/call`, "Video call", 600, 800);
+        // if (newWindow) newWindow.makeCall(user, conversation, true);
+        if (newWindow) {
+            newWindow.addEventListener('load', () => {
+                newWindow.makeCall(conversation._id, true);
+            })
         }
-
-        // navigator.mediaDevices.getUserMedia({ video: true, audio: true }, (stream) => {
-
-        // }, (err) => {
-        //     console.error('Failed to get local stream', err);
-        // });
-
     }
     return (
         <header className="header-conversation">
@@ -48,13 +36,13 @@ const HeaderConversation = ({ conversation, user, isMobile, changeConversation }
             <div className="header-chat-action">
                 <ul>
                     <li>
-                        <button onClick={makeCall}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0abb87" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <button onClick={makeVideoCall}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffb822" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                         </button>
                     </li>
                     <li>
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffb822" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                        <button onClick={makeAudioCall}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0abb87" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                         </button>
                     </li>
                     <li>

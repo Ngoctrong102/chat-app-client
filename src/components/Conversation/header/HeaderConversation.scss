@@ -77,6 +77,9 @@ header.header-conversation {
                     background-color: white;
                     border-radius: 4px;
                     padding: 10px 15px 7px;
+                    &:hover {
+                        background-color: rgba(228, 225, 225, 0.733);
+                    }
                 }
             }
         }
