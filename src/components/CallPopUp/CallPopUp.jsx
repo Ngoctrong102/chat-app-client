@@ -37,6 +37,7 @@ const CallPopUp = () => {
       setNoti(data)
     })
     socket.on('JOIN_CALL', ({ peerID }) => {
+      console.log("đã bắt được", peerID)
       var call = peer.call(peerID, localStream)
       call.on('stream', (remoteStream) => {
         videoTagRemote.current.srcObject = remoteStream;
@@ -56,7 +57,7 @@ const CallPopUp = () => {
     window.answerCall = async (conversationID, isVideoCall) => {
       localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: false });
       videoTag.current.srcObject = localStream;
-      console.log("abc", peer.id)
+      console.log("answer call, my peer id: ", peer.id)
       socket.emit("JOIN_CALL", { conversationID, peerID: peer.id });
     }
 
