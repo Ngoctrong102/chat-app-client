@@ -64,9 +64,7 @@ const CallPopUp = () => {
   }, [])
   return (
     <div>
-      mình nè
       <video ref={videoTag} autoPlay={true} />
-      ng ta
       <video ref={videoTagRemote} autoPlay={true} />
       <div>
         {noti}
