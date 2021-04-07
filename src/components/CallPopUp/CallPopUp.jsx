@@ -18,10 +18,11 @@ const CallPopUp = () => {
     peer = new Peer({
       host: process.env.REACT_APP_PEER_SERVER_HOST,
       debug: 1,
-      path: '/',
-      port: 9000
+      path: '/peerServer',
+      port: process.env.REACT_APP_PEER_SERVER_PORT
     });
     peer.on('open', async (id) => {
+      console.log('peerID: ', id);
       peer.on('call', function (call) {
         call.answer(localStream);
         call.on('stream', (remoteStream) => {
