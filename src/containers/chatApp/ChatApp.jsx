@@ -67,7 +67,9 @@ const ChatApp = ({ popUp, socket, addNewMessage, firstMessage, currentConversati
       if (a) {
         var newWindow = popupWindow('/call', "Video call", 600, 800);
         if (newWindow) {
-          newWindow.addEventListener('load', () => {
+          newWindow.addEventListener('load', async () => {
+            var ICEServer = await fetch(process.env.REACT_APP_API_URL + "getICEServer").then(res => res.json());
+            newWindow.init(ICEServer);
             newWindow.answerCall(conversationID, isVideoCall)
           })
         }

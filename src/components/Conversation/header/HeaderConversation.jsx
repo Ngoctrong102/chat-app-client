@@ -9,12 +9,14 @@ const HeaderConversation = ({ conversation, user, isMobile, changeConversation }
         console.log('gọi k video')
 
     }
-    const makeVideoCall = () => {
+    const makeVideoCall = async () => {
         // window.hadCall = true;
         var newWindow = popupWindow(`/call`, "Video call", 600, 800);
         // if (newWindow) newWindow.makeCall(user, conversation, true);
         if (newWindow) {
-            newWindow.addEventListener('load', () => {
+            newWindow.addEventListener('load', async () => {
+                var ICEServer = await fetch(process.env.REACT_APP_API_URL + "getICEServer").then(res => res.json());
+                newWindow.init(ICEServer);
                 newWindow.makeCall(conversation._id, true);
             })
         }
