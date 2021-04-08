@@ -20,10 +20,10 @@ const CallPopUp = () => {
   useEffect(async () => {
     window.init = (ICEServer) => {
       peer = new Peer({
-        host: "peer-server-ngoctrong102",
+        host: "peer-server-ngoctrong102.herokuapp.com",
         debug: 1,
         path: '/',
-        port: process.env.REACT_APP_PEER_SERVER_PORT,
+        port: 443,
         config: {
           'iceServers': ICEServer
         }
