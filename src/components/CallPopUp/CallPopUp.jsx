@@ -13,10 +13,6 @@ const CallPopUp = () => {
   var videoTag = useRef();
   var videoTagRemote = useRef();
 
-
-
-
-
   useEffect(async () => {
     window.init = (ICEServer) => {
       peer = new Peer({
@@ -24,12 +20,13 @@ const CallPopUp = () => {
         debug: 1,
         path: '/',
         port: 443,
+        secure: true,
         config: {
           'iceServers': ICEServer
         }
       });
       peer.on('open', async (id) => {
-        console.log('peerID: ', id);
+        console.log("open 1:", id)
         peer.on('call', function (call) {
           call.answer(localStream);
           call.on('stream', (remoteStream) => {
@@ -66,8 +63,16 @@ const CallPopUp = () => {
     window.answerCall = async (conversationID, isVideoCall) => {
       localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: false });
       videoTag.current.srcObject = localStream;
-      console.log("answer call, my peer id: ", peer.id)
-      socket.emit("JOIN_CALL", { conversationID, peerID: peer.id });
+      if (peer.id) {
+        console.log("answer call, my peer id: ", peer.id)
+        socket.emit("JOIN_CALL", { conversationID, peerID: peer.id });
+      } else {
+        peer.on('open', async (id) => {
+          console.log("open 2:", id)
+          console.log("answer call, my peer id: ", id)
+          socket.emit("JOIN_CALL", { conversationID, peerID: id });
+        })
+      }
     }
 
 
