@@ -52,7 +52,7 @@ const CallPopUp = () => {
       })
     }
     window.makeCall = async (conversationID, isVideoCall) => {
-      localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: false });
+      localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: true });
       videoTag.current.srcObject = localStream;
       console.log(localStream);
       socket.emit("MAKE_CALL", {
@@ -62,7 +62,7 @@ const CallPopUp = () => {
     }
 
     window.answerCall = async (conversationID, isVideoCall) => {
-      localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: false });
+      localStream = await navigator.mediaDevices.getUserMedia({ video: isVideoCall, audio: true });
       videoTag.current.srcObject = localStream;
       if (peer.id) {
         console.log("answer call, my peer id: ", peer.id)
