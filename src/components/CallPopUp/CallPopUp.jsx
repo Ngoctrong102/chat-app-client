@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import getSocket from '../../configs/socket';
 import getToken from '../../helpers/getToken';
 import Peer from 'peerjs';
+
+import './CallPopUp.scss';
 
 const CallPopUp = () => {
   var [noti, setNoti] = useState('');
@@ -14,6 +15,7 @@ const CallPopUp = () => {
   var videoTagRemote = useRef();
 
   useEffect(async () => {
+    socket = getSocket(getToken());
     window.init = (ICEServer) => {
       peer = new Peer({
         host: "peer-server-ngoctrong102.herokuapp.com",
@@ -36,7 +38,6 @@ const CallPopUp = () => {
           })
         });
       })
-      socket = getSocket(getToken());
       socket.on('REFUSE_CALL', (data) => {
         setNoti(data)
       })
@@ -79,9 +80,9 @@ const CallPopUp = () => {
 
   }, [])
   return (
-    <div>
-      <video ref={videoTag} autoPlay={true} />
-      <video ref={videoTagRemote} autoPlay={true} />
+    <div className="call-pop-up">
+      <video className="me" ref={videoTag} autoPlay={true} />
+      <video className="current-user" ref={videoTagRemote} autoPlay={true} />
       <div>
         {noti}
       </div>

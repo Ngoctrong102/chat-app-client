@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Navigator from '../navigator/navigator'
 import Conversation from '../conversation/conversation';
 import FormPopUp from '../FormPopUp/FormPopUp';
+import NotiCall from '../../components/NotiCall/NotiCall';
 import { addNewMessage, changeConversation, firstMessage } from '../../store/actions/conversations'
 
 import popupWindow from '../../helpers/popupWindow';
@@ -14,8 +15,27 @@ let SocketContext = createContext();
 
 const ChatApp = ({ popUp, socket, addNewMessage, firstMessage, currentConversation, changeConversation }) => {
   let [isMobile, setIsMobile] = useState(document.body.offsetWidth < 824);
+
+  let [commingCall, setCommingCall] = useState(false);
+  let [callInfor, setCallInfor] = useState(null);
+
   const changeIsMobile = e => {
     setIsMobile(document.body.offsetWidth < 824);
+  }
+
+  const acceptCall = ({ conversationID, isVideoCall }) => {
+    setCommingCall(false);
+    var newWindow = popupWindow('/call', "Video call", 600, 800);
+    if (newWindow) {
+      newWindow.addEventListener('load', async () => {
+        var ICEServer = await fetch(process.env.REACT_APP_API_URL + "getICEServer").then(res => res.json());
+        newWindow.init(ICEServer);
+        newWindow.answerCall(conversationID, isVideoCall)
+      })
+    }
+  }
+  const refuseCall = ({ conversationID, isVideoCall }) => {
+    console.log("từ chối nghe máy")
   }
   useEffect(() => {
     socket.on('NEW_MESSAGE', ({ conversationID, message }) => {
@@ -26,54 +46,21 @@ const ChatApp = ({ popUp, socket, addNewMessage, firstMessage, currentConversati
       // console.log(data)
       firstMessage(oldID, conversation);
     })
-    socket.on('HAVE_CALL', async ({ conversationID, peerID, isVideoCall }) => {
+
+    socket.on('HAVE_CALL', async ({ conversationID, isVideoCall }) => {
+      setCommingCall(true);
+      setCallInfor({ conversationID, isVideoCall })
       // var a = window.confirm("có cuộc gọi nè");
       // if (a) {
-      //   var stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-      //   vL.current.srcObject = stream;
-      //   var peer = new Peer({
-      //     host: process.env.REACT_APP_PEER_SERVER_HOST,
-      //     debug: 1,
-      //     path: '/',
-      //     port: 9000
-      //   });
-      //   peer.on('open', (id) => {
-      //     var call = peer.call(peerID, stream);
-
-      //     call.on('stream', (streamRemote) => {
-      //       console.log("streamRemote");
-      //       v.current.srcObject = streamRemote;
-      //       // v.current.play();
-      //       console.log(streamRemote);
-      //       var playPromise = v.current.play();
-
-      //       // if (playPromise !== undefined) {
-      //       //   playPromise
-      //       //     .then(_ => {
-      //       //       // Automatic playback started!
-      //       //       // Show playing UI.
-      //       //       console.log("audio played auto");
-      //       //     })
-      //       //     .catch(error => {
-      //       //       // Auto-play was prevented
-      //       //       // Show paused UI.
-      //       //       console.log("playback prevented");
-      //       //     });
-      //       // }
+      //   var newWindow = popupWindow('/call', "Video call", 600, 800);
+      //   if (newWindow) {
+      //     newWindow.addEventListener('load', async () => {
+      //       var ICEServer = await fetch(process.env.REACT_APP_API_URL + "getICEServer").then(res => res.json());
+      //       newWindow.init(ICEServer);
+      //       newWindow.answerCall(conversationID, isVideoCall)
       //     })
-      //   })
+      //   }
       // }
-      var a = window.confirm("có cuộc gọi nè");
-      if (a) {
-        var newWindow = popupWindow('/call', "Video call", 600, 800);
-        if (newWindow) {
-          newWindow.addEventListener('load', async () => {
-            var ICEServer = await fetch(process.env.REACT_APP_API_URL + "getICEServer").then(res => res.json());
-            newWindow.init(ICEServer);
-            newWindow.answerCall(conversationID, isVideoCall)
-          })
-        }
-      }
     })
     window.addEventListener('resize', changeIsMobile)
 
@@ -107,6 +94,7 @@ const ChatApp = ({ popUp, socket, addNewMessage, firstMessage, currentConversati
   return (
     <SocketContext.Provider value={socket}>
       <div className="app">
+        {commingCall && <NotiCall acceptCall={acceptCall} callInfor={callInfor} refuseCall={refuseCall} />}
         {popUp && <FormPopUp />}
         {renderBodyApp()}
       </div>
