@@ -33,11 +33,13 @@ const CallPopUp = () => {
           console.log("call 1:");
           call.answer(localStream);
           call.on('stream', (remoteStream) => {
-            if (!remoteStreams.includes(remoteStream)) {
-              // setRemoteStreams([...remoteStreams, remoteStream])
-              setRemoteStreams(prev => { return [...prev, remoteStream] })
-              console.log('remote 1:', remoteStreams)
-            }
+            setRemoteStreams(prev => {
+              if (!prev.includes(remoteStream))
+                return [...prev, remoteStream]
+              return [...prev];
+            })
+
+            console.log('remote 1:', remoteStreams)
           })
         });
       })
@@ -49,10 +51,13 @@ const CallPopUp = () => {
         var call = peer.call(peerID, localStream)
         call.on('stream', (remoteStream) => {
           console.log("đã bắt được", peerID)
-          if (!remoteStreams.includes(remoteStream)) {
-            setRemoteStreams(prev => { return [...prev, remoteStream] })
-            console.log('remote 2:', remoteStreams)
-          }
+          setRemoteStreams(prev => {
+            if (!prev.includes(remoteStream))
+              return [...prev, remoteStream]
+            return [...prev]
+          })
+          console.log('remote 2:', remoteStreams)
+
         })
       })
     }
