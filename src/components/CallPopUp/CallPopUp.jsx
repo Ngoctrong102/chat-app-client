@@ -43,7 +43,7 @@ const CallPopUp = () => {
         });
       })
       socket.on('REFUSE_CALL', (data) => {
-        setNoti(data)
+        console.log("Từ chối cuộc gọi");
       })
       socket.on('JOIN_CALL', ({ peerID }) => {
         console.log("call 2:", peerID)
