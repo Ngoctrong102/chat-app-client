@@ -11,7 +11,7 @@ const CallPopUp = () => {
   var peer;
   var socket;
   var localStream;
-  var [remoteStreams, setRemoteStreams] = useState([]);
+  let [remoteStreams, setRemoteStreams] = useState([]);
   var videoTag = useRef();
 
   useEffect(async () => {
@@ -34,7 +34,8 @@ const CallPopUp = () => {
           call.answer(localStream);
           call.on('stream', (remoteStream) => {
             if (!remoteStreams.includes(remoteStream)) {
-              setRemoteStreams([...remoteStreams, remoteStream])
+              // setRemoteStreams([...remoteStreams, remoteStream])
+              setRemoteStreams(prev => { return [...prev, remoteStream] })
               console.log('remote 1:', remoteStreams)
             }
           })
@@ -49,7 +50,7 @@ const CallPopUp = () => {
         call.on('stream', (remoteStream) => {
           console.log("đã bắt được", peerID)
           if (!remoteStreams.includes(remoteStream)) {
-            setRemoteStreams([...remoteStreams, remoteStream])
+            setRemoteStreams(prev => { return [...prev, remoteStream] })
             console.log('remote 2:', remoteStreams)
           }
         })
