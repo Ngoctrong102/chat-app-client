@@ -37,7 +37,6 @@ const CallPopUp = () => {
               setRemoteStreams([...remoteStreams, remoteStream])
               console.log('remote 1:', remoteStream)
             }
-            remoteStreams.push(remoteStream);
           })
         });
       })
@@ -53,7 +52,6 @@ const CallPopUp = () => {
             setRemoteStreams([...remoteStreams, remoteStream])
             console.log('remote 2:', remoteStream)
           }
-          remoteStreams.push(remoteStream);
         })
       })
     }
