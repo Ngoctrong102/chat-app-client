@@ -35,7 +35,7 @@ const CallPopUp = () => {
           call.on('stream', (remoteStream) => {
             if (!remoteStreams.includes(remoteStream)) {
               setRemoteStreams([...remoteStreams, remoteStream])
-              console.log('remote 1:', remoteStream)
+              console.log('remote 1:', remoteStreams)
             }
           })
         });
@@ -50,7 +50,7 @@ const CallPopUp = () => {
           console.log("đã bắt được", peerID)
           if (!remoteStreams.includes(remoteStream)) {
             setRemoteStreams([...remoteStreams, remoteStream])
-            console.log('remote 2:', remoteStream)
+            console.log('remote 2:', remoteStreams)
           }
         })
       })
