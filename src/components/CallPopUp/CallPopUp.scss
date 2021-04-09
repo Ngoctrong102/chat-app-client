@@ -1,4 +1,4 @@
-.call-pop-up {
+.call-pop-up-grid {
     position: relative;
     background-color: black;
     height: 100vh;
@@ -10,12 +10,61 @@
         width: 150px;
         bottom: 10px;
         right: 10px;
+        video {
+            width: 100%;
+        }
     }
     .group-video {
         display: flex;
         .current-user {
             width: 100%;
             max-height: 99vh;
+            video {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.call-pop-up-focus {
+    position: relative;
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    align-items: flex-end;
+    .current-video {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        video {
+            width: 100%;
+            max-height: 99vh;
+        }
+    }
+    .me {
+        width: 150px;
+        bottom: 10px;
+        right: 10px;
+        margin-right: 5px;
+        z-index: 1;
+        video {
+            width: 100%;
+        }
+    }
+    .group-video {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+        margin-right: 5px;
+        z-index: 1;
+        .current-user {
+            width: 100%;
+            video {
+                width: 100%;
+            }
         }
     }
 }

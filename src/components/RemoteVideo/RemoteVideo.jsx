@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react"
 
-const RemoteVideo = ({ stream }) => {
+const RemoteVideo = ({ stream, changeCurrenStream }) => {
   var videoTag = useRef();
   useEffect(() => { videoTag.current.srcObject = stream })
 
   return (
-    <video className="current-user" ref={videoTag} autoPlay={true}></video>
+    <div className="current-user" onClick={() => changeCurrenStream(stream)}>
+      <video ref={videoTag} autoPlay={true}></video>
+    </div>
   )
 }
 

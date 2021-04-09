@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import getSocket from '../../configs/socket';
 import getToken from '../../helpers/getToken';
 import Peer from 'peerjs';
@@ -12,6 +12,8 @@ const CallPopUp = () => {
   var localStream;
   let [remoteStreams, setRemoteStreams] = useState([]);
   var videoTag = useRef();
+  var videoCurrentTag = useRef();
+
 
   useEffect(async () => {
     socket = getSocket(getToken());
@@ -90,14 +92,28 @@ const CallPopUp = () => {
 
 
   }, [])
+  useEffect(() => {
+    if (!videoCurrentTag.current.srcObject && remoteStreams[0]) {
+      videoCurrentTag.current.srcObject = remoteStreams[0];
+    }
+  }, [remoteStreams])
 
-  const renderRemoteVideo = remoteStreams.map((remoteStream, i) => <RemoteVideo stream={remoteStream} key={i} />)
+  const changeCurrenStream = (stream) => {
+    videoCurrentTag.current.srcObject = stream;
+  }
+  const renderRemoteVideo = remoteStreams.map((remoteStream, i) => <RemoteVideo stream={remoteStream} key={i} changeCurrenStream={changeCurrenStream} />)
   return (
-    <div className="call-pop-up">
-      <video className="me" ref={videoTag} autoPlay={true} />
+    <div className="call-pop-up-focus">
+      <div className="current-video">
+        <video ref={videoCurrentTag} autoPlay={true} />
+      </div>
+      <div className="me">
+        <video ref={videoTag} autoPlay={true} />
+      </div>
       <div className="group-video">
         {renderRemoteVideo}
       </div>
+
     </div>
   )
 }
