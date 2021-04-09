@@ -4,15 +4,15 @@ import getToken from '../../helpers/getToken';
 import Peer from 'peerjs';
 
 import './CallPopUp.scss';
+import RemoteVideo from '../RemoteVideo/RemoteVideo';
 
 const CallPopUp = () => {
   var [noti, setNoti] = useState('');
   var peer;
   var socket;
   var localStream;
-  var remoteStreams = [];
+  var [remoteStreams, setRemoteStreams] = useState([]);
   var videoTag = useRef();
-  var videoTagRemote = useRef();
 
   useEffect(async () => {
     socket = getSocket(getToken());
@@ -23,17 +23,20 @@ const CallPopUp = () => {
         path: '/',
         port: 443,
         secure: true,
-        config: {
-          'iceServers': ICEServer
-        }
+        // config: {
+        //   'iceServers': ICEServer
+        // }
       });
       peer.on('open', async (id) => {
         console.log("open 1:", id)
         peer.on('call', function (call) {
+          console.log("call 1:");
           call.answer(localStream);
           call.on('stream', (remoteStream) => {
-            console.log('remote:', remoteStream)
-            videoTagRemote.current.srcObject = remoteStream;
+            if (!remoteStreams.includes(remoteStream)) {
+              setRemoteStreams([...remoteStreams, remoteStream])
+              console.log('remote 1:', remoteStream)
+            }
             remoteStreams.push(remoteStream);
           })
         });
@@ -42,11 +45,14 @@ const CallPopUp = () => {
         setNoti(data)
       })
       socket.on('JOIN_CALL', ({ peerID }) => {
-        console.log("đã bắt được", peerID)
+        console.log("call 2:", peerID)
         var call = peer.call(peerID, localStream)
         call.on('stream', (remoteStream) => {
-          videoTagRemote.current.srcObject = remoteStream;
-          console.log('remote:', remoteStream)
+          console.log("đã bắt được", peerID)
+          if (!remoteStreams.includes(remoteStream)) {
+            setRemoteStreams([...remoteStreams, remoteStream])
+            console.log('remote 2:', remoteStream)
+          }
           remoteStreams.push(remoteStream);
         })
       })
@@ -81,10 +87,12 @@ const CallPopUp = () => {
 
 
   }, [])
+
+  const renderRemoteVideo = remoteStreams.map((remoteStream, i) => <RemoteVideo stream={remoteStream} key={i} />)
   return (
     <div className="call-pop-up">
       <video className="me" ref={videoTag} autoPlay={true} />
-      <video className="current-user" ref={videoTagRemote} autoPlay={true} />
+      {renderRemoteVideo}
       <div>
         {noti}
       </div>
