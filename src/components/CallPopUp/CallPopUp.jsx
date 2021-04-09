@@ -7,7 +7,6 @@ import './CallPopUp.scss';
 import RemoteVideo from '../RemoteVideo/RemoteVideo';
 
 const CallPopUp = () => {
-  var [noti, setNoti] = useState('');
   var peer;
   var socket;
   var localStream;
@@ -96,9 +95,8 @@ const CallPopUp = () => {
   return (
     <div className="call-pop-up">
       <video className="me" ref={videoTag} autoPlay={true} />
-      {renderRemoteVideo}
-      <div>
-        {noti}
+      <div className="group-video">
+        {renderRemoteVideo}
       </div>
     </div>
   )
